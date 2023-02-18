@@ -20,7 +20,7 @@ void main_loop(){
     int status;
     char * path;
     do{
-        path = getenv("PATH");
+        path = getenv("PWD");
 
         printf("%s> ", path);
         line = readline();
