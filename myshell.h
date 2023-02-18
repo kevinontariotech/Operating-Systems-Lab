@@ -6,14 +6,18 @@
 #include <sys/types.h>
 #include "string.h"
 #include <sys/wait.h>
+#include <dirent.h>
 
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
 #define _POSIX_SOURCE
 
-void lsh_loop();
-char *lsh_read_line(void);
-char **lsh_split_line(char *line);
-int lsh_launch(char **args);
+extern char **environ;
+
+void main_loop();
+char *readline(void);
+char **tokenize(char *line);
+int execute(char **args);
+int launch(char **args);
 
 #endif

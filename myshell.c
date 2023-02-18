@@ -1,11 +1,12 @@
 #include "myshell.h"
+#include "utility.c"
 
 int main(int argc, char **argv)
 {
   // Load config files, if any.
 
   // Run command loop.
-  lsh_loop();
+  main_loop();
 
   // Perform any shutdown/cleanup.
 
@@ -13,16 +14,18 @@ int main(int argc, char **argv)
 }
 
  // main shell loop, that will read, parse, and execute the shell lines
-void lsh_loop(){
+void main_loop(){
     char *line;
     char **args;
     int status;
-
+    char * path;
     do{
-        printf("> ");
-        line = lsh_readline();
-        args = lsh_split_line(line);
-        status = lsh_execute(args);
+        path = getenv("PATH");
+
+        printf("%s> ", path);
+        line = readline();
+        args = tokenize(line);
+        status = execute(args);
 
         free(line);
         free(args);
@@ -31,7 +34,7 @@ void lsh_loop(){
 }
 
 //read the lines from the shell
-char *lsh_read_line(void){
+char* readline(void){
     char *line = NULL;
     ssize_t bufsize = 0;//getline will allocate the buffer size automatically
     //read the line from standard input
@@ -49,7 +52,7 @@ char *lsh_read_line(void){
 }
 
 //split and parse the line into tokens 
-char **lsh_split_line(char *line){
+char **tokenize(char *line){
     int bufsize = LSH_TOK_BUFSIZE, position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
     char *token;
@@ -84,7 +87,24 @@ char **lsh_split_line(char *line){
     return tokens;
 }
 
-int lsh_launch(char **args){
+int execute(char ** args){
+    int i;
+
+    //no input
+    if (args[0] == NULL){
+        return(1);
+    }
+
+    for (i = 0; i < num_command(); i++){
+        if (strcmp(args[0], commands[i]) == 0){
+            return (*command_func[i])(args);
+        }
+    }
+
+    return launch(args);
+}
+
+int launch(char **args){
     pid_t pid, wpid;
     int status;
 
@@ -92,11 +112,11 @@ int lsh_launch(char **args){
     if (pid = 0){
         //child process
         if (execvp(args[0], args) == 1){
-            perror("lsh: argument fail");
+            perror("Argument fail");
         }
         exit(EXIT_FAILURE);
     } else if (pid < 0){
-        perror("lsh: fork fail");
+        perror("Fork fail");
     } else {
         do {
             wpid = waitpid(pid, &status, WUNTRACED);
