@@ -11,11 +11,11 @@ int paus(char **args);
 int quit(char **args);
 
 char *commands[] = {
-    "cd", "clr", "dir", "env", "echo", "help", "pause", "quit"
+    "cd", "clr", "dir", "env", "echo", "help", "paus", "quit"
 };
 
 int (*command_func[])(char **) = {
-    &cd, &clr, &dir, &env, &echo, &help, &pause, &quit
+    &cd, &clr, &dir, &env, &echo, &help, &paus, &quit
 };
 
 int num_command(){
@@ -71,7 +71,8 @@ int echo(char **args){
     while (*args){
         printf("%s ", *args++);
     }
-
+    printf("\n");
+    
     return 1;
 }
 
@@ -81,7 +82,7 @@ int help(char **args){
     printf("These are the commands that are imlemented");
 
     for (int i = 0; i < num_command(); i++){
-        printf(" - %s", commands[i]);
+        printf(" - %s\n", commands[i]);
     }
 
     return 1;
