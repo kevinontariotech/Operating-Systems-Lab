@@ -43,8 +43,13 @@ int clr(char **args){
 int dir(char **args){
     DIR *d;
     struct dirent *dir;
-    d = opendir(".");
-
+    
+    if (args[1] != NULL){
+        d = opendir(args[1]);
+    } else {
+        d = opendir(".");
+    }
+        
     if (d) {
         while ((dir = readdir(d)) != NULL) {
             printf("%s\n", dir->d_name);
