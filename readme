@@ -1,0 +1,58 @@
+Simple C Shell : 
+A simple Linux C shell featuring limited I/O redirection, background execution, and built-in commands. In order to execute the shell, you must run the makefile which has a link to all the C files required to make the shell run.
+
+
+Environment : 
+Environment variables are mutable values that can have an impact on the operations of computer programs or processes. They serve the purpose of conveying information to spawned processes from the shell.
+
+
+Built-in commands : 
+In the shell, built-in commands are directly executed. The ensuing commands are considered built-in.
+
+Changing Directory
+cd <directory>
+This command modifies the current working directory to the specified <directory> and subsequently updates the PWD environment variable.
+If <directory> is not specified, report the current working directory
+If <directory> does not exist, an error is reported
+
+
+Clear Terminal
+clr
+Clears terminal
+
+Show Contents of Directory
+dir <directory>
+List all files in <directory> excluding any invisible files
+If <directory> is not specified use the current working directory
+
+List Environment Variables
+env
+List all environment variables
+
+Display Text
+echo <comment>
+Prints <comment> in terminal
+All whitespace is reduced to a single space
+
+Shell Manual
+help
+Display supported built-in commands
+
+Pause Shell Execution
+stop
+Pauses execution of shell until “Enter” is pressed
+
+Exit Shell
+quit
+Exits shell immediately
+
+When a command is not found in the list of built-in commands, the shell will attempt to execute it by forking a child process, who will execute the command via execvp.
+
+Background Execution
+This shell can support background commands which allows for a command to be run in the background when specified with the correct flag in the command. The parent process of the command will not wait for the child process and instead will prompt the user to enter another command since the previous command will be executed in the background.
+Contributors
+Parasjeet Marwah - 100787512
+Kevin Yung - 100619031
+Soumil Thete - 100797938
+Furqan Mahmood - 100790243
+
