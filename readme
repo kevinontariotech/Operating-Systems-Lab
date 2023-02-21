@@ -39,7 +39,7 @@ help
 Display supported built-in commands
 
 Pause Shell Execution
-stop
+paus
 Pauses execution of shell until “Enter” is pressed
 
 Exit Shell
